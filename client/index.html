@@ -1,0 +1,31 @@
+<html ng-app="preums"> 
+	<head>
+		<meta charset="utf-8" />
+		<meta name="description" content="Alertes sur le bon coin" >
+		<title>preums</title>
+
+		<!-- CSS !-->    
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+		<!-- Project file !-->
+		<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>		
+		<link href="css/preums.css" rel="stylesheet">
+		
+		<!-- Dependency  Libs !--> 
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js"></script>
+
+		<!-- Project files !-->
+		<!-- Services and controllers -->
+		<script type="text/javascript" src="js/preums.js"></script>
+		<script type="text/javascript" src="js/preumsCtrl.js"></script>
+		<script type="text/javascript" src="js/alertes/alertes.js"></script>
+
+	</head>
+	<body>
+		<div ng-controller="preumsCtrl">
+			<div ng-include="'partials/menubar.html'"></div>
+			<div ng-include="'partials/alert_handler.html'"></div>
+		</div>
+	</body>
+</html>

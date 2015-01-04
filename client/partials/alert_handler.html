@@ -1,0 +1,35 @@
+<form class="form-horizontal" action="">
+	<div class="container">
+		<div class="row lined" ng-repeat="alerte in data.alertes.liste">
+			<div class="col-md-3">
+				{{alerte.libelle}}
+			</div>
+			<div class="col-md-3">
+				{{alerte.email}}
+			</div>
+			<div class="col-md-3">
+				{{alerte.baseUrl}}
+			</div>
+			<div class="col-md-3">
+				<a href="" ng-click="supprimer(alerte.idAnnonces)"><button type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Supprimer</button></a>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+			titre
+		    <input ng-model="data.titre"></input>
+		</div>
+		<div class="col-md-3">
+		  url
+		    <input ng-model="data.url"></input>
+		</div>
+		<div class="col-md-3">
+		  mel
+		    <input ng-model="data.email"></input>
+		</div>
+		<button type="button" class="btn btn-success btn-sm" ng-click='ajouter(data.titre, data.url, data.email)'><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Ajouter</button>
+	</div>
+
+</form>
+
