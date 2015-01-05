@@ -10,7 +10,7 @@ if	(!($cxn = mysql_connect($DB['host'],$DB['username'],$DB['password']))){
 mysql_select_db($DB['dbname'],$cxn);
 
 // Récupération des listes annonces triées par utilisateur
-$query = 'select * from annonce order by email';
+$query = 'select * from annonce order by email, libelle';
 $resultats = mysql_query($query,$cxn);
 
 $jsonRes = array();

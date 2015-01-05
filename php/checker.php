@@ -1,4 +1,4 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<html>
 <head>
    <link rel="stylesheet" href="gSlurp.css" type="text/css" />
 </head>
@@ -9,6 +9,6 @@ require_once 'crawlAnnonces.php';
 $dateHeure = getAnnonces();
 
 ?>
-<h1>Mis à jour le <?php $dateHeure ?></h1>
+<h1>Alertes mises à jour le <?php echo ($dateHeure); ?></h1>
 </body>
 </html>

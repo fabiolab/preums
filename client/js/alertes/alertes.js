@@ -4,7 +4,7 @@ preums.factory('alertes', function($http){
 	alertesObj.info = {'liste':[]}
 
 	alertesObj.getAlertes = function(){
-		$http.get('http://localhost/preums/api/getAnnonces.php').
+		$http.get('http://www.fabiolab.fr/preums/api/getAnnonces.php').
 			success(function(data, status, headers, config) {
 				// console.log(data[0]);
 				alertesObj.info.liste = data;
@@ -16,7 +16,7 @@ preums.factory('alertes', function($http){
 	};
 
 	alertesObj.delAlerte = function(id){
-		$http.get('http://localhost/preums/api/delAnnonce.php?id='+id).
+		$http.get('http://www.fabiolab.fr/preums/api/delAnnonce.php?id='+id).
 			success(function(data, status, headers, config) {
 				// console.log(data);
 				alertesObj.getAlertes();
@@ -32,7 +32,7 @@ preums.factory('alertes', function($http){
 		body.url = url;
 		body.email = email;
 		console.log(body);
-		$http.post('http://localhost/preums/api/addAnnonce.php', body).
+		$http.post('http://www.fabiolab.fr/preums/api/addAnnonce.php', body).
 			success(function(data, status, headers, config) {
 				// console.log('ok : '+body);
 				alertesObj.getAlertes();

@@ -48,10 +48,13 @@ function getAnnonces(){
 			$htmlMail = getHtml($annonces);
 			
 			// Création du mail
-			mailTo('[slurp] Annonces à '.$laCourante['libelle'], $htmlMail, $laCourante['email']);
+			mailTo('[preums] Annonces à '.$laCourante['libelle'], $htmlMail, $laCourante['email']);
 		}else{
 			trace('INFO', 'Aucune maj a remonter');
 		}
+
+		// On attend 5sec avant de parser une nouvelle page (histoire de pas se faire blacklister)
+		sleep(5);
 	}
 	return $dateHeure;	
 }
@@ -84,8 +87,8 @@ function mailTo($pSujet, $pTexte, $pDest){
 	$boundary = "-----=".md5(rand());
 
 	// Header.
-	$header  = "From: \"Fabio\"<fabio@fabiolab.fr>\n";
-	$header .= "Reply-to: \"Fabio\" <fabio@fabiolab.fr>\n";
+	$header  = "From: \"Preums\"<noreply@fabiolab.fr>\n";
+	$header .= "Reply-to: \"Preums\" <noreply@fabiolab.fr>\n";
 	$header .= "MIME-Version: 1.0\n";
 	$header .= "Content-Type: multipart/alternative;\n";
 	$header .= "boundary=\"$boundary\"\n";
