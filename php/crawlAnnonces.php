@@ -29,26 +29,36 @@ function getAnnonces(){
 		}
 
 		$tsLa = strtotime($laCourante['dateDerniereVerif']);
-		//if ($laCourante['active'] && ($tsNow >= $tsLa + ($laCourante['frequence'] * 3600)))
-		if ($laCourante['active']) //&& ($tsNow >= $tsLa + ($laCourante['frequence'] * 3600)))
+		// On ne vérifie les annonces que si la liste est active et qu'il s'est passé suffisamment de temps
+		// depuis la dernière verif (ie : "frequence" heures depuis la dernière vérif )
+		if ($laCourante['active'] && ($tsNow >= $tsLa + ($laCourante['frequence'] * 3500)))
+		// if ($laCourante['active'] && ($tsNow >= $tsLa + 3600))
 		{
-			trace ('INFO', 'Traitement des annonces de '.$laCourante['email']);
+			trace ('INFO', 'Traitement des annonces '.$laCourante['libelle'].' pour '.$laCourante['email']);
 			// Récupération des annonces
 			$laLbc = new LALeBonCoin();
 			$laLbc->setBaseUrl($laCourante['baseUrl']);
 			$laLbc->setIdDerniereAnnonce($laCourante['idDerniereAnnonce']);
 			$annonces = $laLbc->getDernieresAnnonces();
 
-			trace ('INFO', 'Récupération de '.count($annonces));
+			trace ('INFO', '    => '.count($annonces).' nouvelles annonce(s) depuis '.$laCourante['dateDerniereVerif']);
 
+			// On continue seulement si on a récupéré des annonces
 			// Mise à jour de la liste d'annonces
-			$queryUpdate = "update annonce set idDerniereAnnonce = '{$annonces[0]->getUrl()}',dateDerniereVerif = '$dateHeure' where idAnnonces = {$laCourante['idAnnonces']}";
- 			mysql_query($queryUpdate,$cxn);
+			if (count($annonces) > 0){
+				$queryUpdate = "update annonce set idDerniereAnnonce = '{$annonces[0]->getUrl()}',dateDerniereVerif = '$dateHeure' where idAnnonces = {$laCourante['idAnnonces']}";
+	 			mysql_query($queryUpdate,$cxn);
 
-			$htmlMail = getHtml($annonces);
-			
-			// Création du mail
-			mailTo('[preums] Annonces à '.$laCourante['libelle'], $htmlMail, $laCourante['email']);
+				$htmlMail = getHtml($annonces);
+				
+				// Création du mail
+				mailTo('[preums] Annonces à '.$laCourante['libelle'], $htmlMail, $laCourante['email']);
+			}else{
+				// On ne met à jour que la date de verif
+				$queryUpdate = "update annonce set dateDerniereVerif = '$dateHeure' where idAnnonces = {$laCourante['idAnnonces']}";
+	 			mysql_query($queryUpdate,$cxn);
+
+			}
 		}else{
 			trace('INFO', 'Aucune maj a remonter');
 		}
@@ -68,12 +78,21 @@ function getAnnonces(){
 function getHtml($pAnnonces){
 	$rHtml = '';
 	foreach ($pAnnonces as $annonce){
-		$rHtml .= '<div class="annonce">';
-		$rHtml .= '   <div class="titre">'.$annonce->getTitre().'</div>';
-		$rHtml .= '   <div class="image"><img src="'.$annonce->getPhoto().'" /></div>';
-		$rHtml .= '   <div class="prix">'.$annonce->getPrix().'</div>';
-		$rHtml .= '   <div class="description">'.$annonce->getDescription().'</div>';
-		$rHtml .= '</div>';
+		$rHtml .= '
+		<div style="font-family: \'Nimbus Sans L\'; border-top: 1px solid #CCC; border-top-width:1px; border-top-style: solid; border-top-color: #CCC;">
+			
+			<div style="float:left; margin:5px;">
+				<a href="'.$annonce->getUrl().'" target="_blank">
+					<img src="'.$annonce->getPhoto().'" style="border: 2px solid black;border-radius: 30px;-moz-border-radius: 30px;-khtml-border-radius: 30px;-webkit-border-radius: 30px;" />
+				</a>
+			</div>
+			<div style="float:left; ">
+				<div style="font-size: 14px;font-weight: bold;margin:5px;">'.$annonce->getTitre().'</div>
+				<div style="font-size: 18px;font-weight: bold;margin:5px;">'.$annonce->getPrix().'</div>
+				<div style="margin:5px;">à '.$annonce->getVille().'</div>
+			</div>
+		</div>
+		<div style="clear:both;"></div>';
 	}
 	return $rHtml;
 }
@@ -87,8 +106,8 @@ function mailTo($pSujet, $pTexte, $pDest){
 	$boundary = "-----=".md5(rand());
 
 	// Header.
-	$header  = "From: \"Preums\"<noreply@fabiolab.fr>\n";
-	$header .= "Reply-to: \"Preums\" <noreply@fabiolab.fr>\n";
+	$header  = "From: \"Preums\"<fabio@fabiolab.fr>\n";
+	$header .= "Reply-to: \"Preums\" <fabio@fabiolab.fr>\n";
 	$header .= "MIME-Version: 1.0\n";
 	$header .= "Content-Type: multipart/alternative;\n";
 	$header .= "boundary=\"$boundary\"\n";

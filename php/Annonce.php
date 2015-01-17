@@ -109,6 +109,14 @@ class Annonce {
 	/**
 	* @return String
 	*/
+	public function getVille()
+	{
+	    return $this->_ville;
+	}
+
+	/**
+	* @return String
+	*/
 	public function getPrix()
 	{
 	    return $this->_prix;

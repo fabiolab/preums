@@ -37,12 +37,11 @@ class LALeBonCoin extends ListeAnnonces {
 			$listeAnnonces = $listeAnnoncesDiv->item(0)->getElementsByTagName('a');
 			foreach ($listeAnnonces as $ligneAnnonce){
 				$tAnnonce = $this->getAnnonce($ligneAnnonce);
-				$rListeAnnonces[] = $tAnnonce;
-
 				// On s'arrête si on retrouve la dernière annonce de la dernière visite
 				if ($tAnnonce->getUrl() == $this->getIdDerniereAnnonce()){
 					break;
 				}
+				$rListeAnnonces[] = $tAnnonce;
 			}
 		}
 		return $rListeAnnonces;

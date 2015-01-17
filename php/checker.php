@@ -1,6 +1,7 @@
 <html>
 <head>
-   <link rel="stylesheet" href="gSlurp.css" type="text/css" />
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="../css/preums.css" type="text/css" />
 </head>
 <body>
 <?php
